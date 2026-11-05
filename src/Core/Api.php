@@ -191,7 +191,7 @@ abstract class Api implements ApiInterface
                     return $request;
                 }));
 
-        $stack->push(Middleware::retry(function ($retries, RequestInterface $request, ResponseInterface $response = null, TransferException $exception = null) {
+        $stack->push(Middleware::retry(function ($retries, RequestInterface $request, ?ResponseInterface $response = null, ?TransferException $exception = null) {
                     return $retries < 3 && ($exception instanceof ConnectException || ($response && $response->getStatusCode() >= 500));
                 }, function ($retries) {
                     return (int) pow(2, $retries) * 1000;
